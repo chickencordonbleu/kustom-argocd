@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minio
+  namespace: argo-cd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/chickencordonbleu/kustom-argocd.git
+    path: base/apps/minio
+  destination:
+    namespace: minio
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
+  revisionHistoryLimit: 1
